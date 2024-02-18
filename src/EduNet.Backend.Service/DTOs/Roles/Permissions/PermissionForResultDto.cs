@@ -1,6 +1,6 @@
 ﻿using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
 
-namespace EduNet.Service.DTOs.Roles.Permissions;
+namespace EduNet.Backend.Service.DTOs.Roles.Permissions;
 
 public class PermissionForResultDto
 {

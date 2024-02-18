@@ -1,7 +1,6 @@
 ﻿using EduNet.Backend.Domain.Enums;
-using EduNet.Backend.Domain.Enums;
 
-namespace EduNet.Service.DTOs.Students.Attendances;
+namespace EduNet.Backend.Service.DTOs.Students.Attendances;
 
 public class AttendanceForUpdateDto
 {
