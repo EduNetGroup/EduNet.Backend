@@ -14,6 +14,6 @@ public static class ServiceExtension
         // Repository
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-        
+        // Services
     }
 }
