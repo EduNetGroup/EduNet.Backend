@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using EduNet.Backend.Domain.Commons;
 
-namespace EduNet.Data.IRepositories;
+namespace EduNet.Backend.Data.IRepositories;
 
 public interface IRepository<TEntity> where TEntity : Auditable
 {
