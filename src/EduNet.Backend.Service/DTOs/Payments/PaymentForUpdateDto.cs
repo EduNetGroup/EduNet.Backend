@@ -1,4 +1,4 @@
-﻿namespace EduNet.Service.DTOs.Payments;
+﻿namespace EduNet.Backend.Service.DTOs.Payments;
 
 public class PaymentForUpdateDto
 {
