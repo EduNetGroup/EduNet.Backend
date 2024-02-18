@@ -14,11 +14,9 @@ public class StudentForResultDto
     public string TelegramUserName { get; set; }
     public long UserId { get; set; }
     public User User { get; set; }
-    public long EnrollmentId { get; set; }
-    public Enrollment Enrollment { get; set; }
     public string PhoneNumber { get; set; }
     public string DateOfBirth { get; set; }
     public ICollection<PaymentForResultDto> Payments { get; set; }
+    public ICollection<EnrollmentForResultDto> Courses { get; set; }
     public ICollection<AttendanceForResultDto> Attendances { get; set; }
-    public ICollection<EnrollmentForResultDto> Enrollments { get; set; }
 }

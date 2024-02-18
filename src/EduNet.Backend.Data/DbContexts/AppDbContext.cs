@@ -7,10 +7,12 @@ using EduNet.Backend.Domain.Entities.Payments;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Domain.Entities.Teachers;
 
-namespace EduNet.Data.DbContexts;
+namespace EduNet.Backend.Data.DbContexts;
 
 public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    { }
     DbSet<User> Users { get; set; }
     DbSet<Role> Roles { get; set; }
     DbSet<Course> Courses { get; set; }
@@ -29,6 +31,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+
     }
 }
