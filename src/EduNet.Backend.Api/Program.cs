@@ -1,5 +1,5 @@
-using EduNet.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using EduNet.Backend.Data.DbContexts;
 
 namespace EduNet.Backend.Api;
 
@@ -17,9 +17,12 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         //// Db connection
+        //builder.Services.AddDbContext<AppDbContext>(options =>
+        //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        //// Db Connection
         builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
         var app = builder.Build();
 
