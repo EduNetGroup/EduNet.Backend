@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using EduNet.Backend.Api.Extensions;
 using EduNet.Backend.Data.DbContexts;
 
 namespace EduNet.Backend.Api;
@@ -16,9 +17,8 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        //// Db connection
-        //builder.Services.AddDbContext<AppDbContext>(options =>
-        //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        //// ServiceExtension
+        builder.Services.AddCustomService();
 
         //// Db Connection
         builder.Services.AddDbContext<AppDbContext>(options =>
