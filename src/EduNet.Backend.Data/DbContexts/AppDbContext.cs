@@ -6,6 +6,7 @@ using EduNet.Backend.Domain.Entities.Branches;
 using EduNet.Backend.Domain.Entities.Payments;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Domain.Entities.Teachers;
+using EduNet.Backend.Domain.Entities.Messages;
 
 namespace EduNet.Backend.Data.DbContexts;
 
@@ -18,6 +19,7 @@ public class AppDbContext : DbContext
     DbSet<Course> Courses { get; set; }
     DbSet<Lesson> Lessons { get; set; }
     DbSet<Branch> Branches { get; set; }
+    DbSet<Message> Messages { get; set; }
     DbSet<Teacher> Teachers { get; set; }
     DbSet<Payment> Payments { get; set; }
     DbSet<Student> Students { get; set; }

@@ -5,7 +5,7 @@ namespace EduNet.Backend.Service.Interfaces.Accounts;
 
 public interface IAccountService
 {
-    public Task<LoginForResultDto> LoginAsync(LoginForCreationDto login);
-    public Task<LoginForResultDto> CreateAsync(UserForCreationDto user);
     public Task<bool> ChangePassword(string email, string password);
+    public Task<LoginForResultDto> CreateAsync(UserForCreationDto user);
+    public Task<LoginForResultDto> LoginAsync(LoginForCreationDto login);
 }
