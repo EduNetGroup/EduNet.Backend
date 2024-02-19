@@ -4,7 +4,6 @@ using EduNet.Backend.Domain.Entities.Roles;
 using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.DTOs.Branches;
 using EduNet.Backend.Service.DTOs.Payments;
-using EduNet.Service.DTOs.Roles.Permissions;
 using EduNet.Backend.Domain.Entities.Courses;
 using EduNet.Backend.Service.DTOs.Users.Users;
 using EduNet.Backend.Domain.Entities.Branches;
@@ -12,7 +11,6 @@ using EduNet.Backend.Domain.Entities.Payments;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Domain.Entities.Teachers;
 using EduNet.Backend.Service.DTOs.Roles.Roles;
-using EduNet.Service.DTOs.Students.Attendances;
 using EduNet.Backend.Service.DTOs.Users.UserCodes;
 using EduNet.Backend.Service.DTOs.Users.UserRoles;
 using EduNet.Backend.Service.DTOs.Courses.Courses;
@@ -107,6 +105,5 @@ public class MappingProfile : Profile
         CreateMap<RolePermission, RolePermissionForResultDto>().ReverseMap();
         CreateMap<RolePermission, RolePermissionForUpdateDto>().ReverseMap();
         CreateMap<RolePermission, RolePermissionForCreationDto>().ReverseMap();
-
     }
 }
