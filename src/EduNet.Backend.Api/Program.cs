@@ -1,8 +1,9 @@
+using Serilog;
 using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Api.Extensions;
 using EduNet.Backend.Data.DbContexts;
 using EduNet.Backend.Service.Helpers;
-using Serilog;
+using EduNet.Backend.Api.MiddleWares;
 
 namespace EduNet.Backend.Api;
 
@@ -47,6 +48,9 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+
+        //// MiddleWare
+        app.UseMiddleware<ExceptionHandlerMiddleWare>();
 
         app.UseAuthorization();
 

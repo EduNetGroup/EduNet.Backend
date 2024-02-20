@@ -1,6 +1,6 @@
 ﻿namespace EduNet.Backend.Service.Exceptions;
 
-partial class EduNetException : Exception
+public class EduNetException : Exception
 {
     public int statusCode;
 
