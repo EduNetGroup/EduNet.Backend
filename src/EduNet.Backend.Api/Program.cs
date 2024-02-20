@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Api.Extensions;
 using EduNet.Backend.Data.DbContexts;
 using EduNet.Backend.Service.Helpers;
+using Serilog;
 
 namespace EduNet.Backend.Api;
 
@@ -20,6 +21,14 @@ public class Program
 
         //// ServiceExtension
         builder.Services.AddCustomService();
+
+        //// Logger 
+        var logger = new LoggerConfiguration()
+          .ReadFrom.Configuration(builder.Configuration)
+          .Enrich.FromLogContext()
+          .CreateLogger();
+        builder.Logging.ClearProviders();
+        builder.Logging.AddSerilog(logger);
 
         //// Db Connection
         builder.Services.AddDbContext<AppDbContext>(options =>
