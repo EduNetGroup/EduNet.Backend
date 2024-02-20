@@ -13,5 +13,6 @@ public class TeacherForResultDto
     public string DateOfBirth { get; set; }
     public long UserId { get; set; }
     public User User { get; set; }
+    public TeacherProfilePhotoForResultDto ProfilePhoto { get; set; }
     public ICollection<TeacherCourseForResultDto> Courses { get; set; }
 }

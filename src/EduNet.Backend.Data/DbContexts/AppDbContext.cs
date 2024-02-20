@@ -7,6 +7,7 @@ using EduNet.Backend.Domain.Entities.Payments;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Domain.Entities.Teachers;
 using EduNet.Backend.Domain.Entities.Messages;
+using EduNet.Backend.Domain.Entities.Assets;
 
 namespace EduNet.Backend.Data.DbContexts;
 
@@ -16,6 +17,7 @@ public class AppDbContext : DbContext
     { }
     DbSet<User> Users { get; set; }
     DbSet<Role> Roles { get; set; }
+    DbSet<Asset> Assets { get; set; }
     DbSet<Course> Courses { get; set; }
     DbSet<Lesson> Lessons { get; set; }
     DbSet<Branch> Branches { get; set; }
@@ -30,6 +32,8 @@ public class AppDbContext : DbContext
     DbSet<Enrollment> Enrollments { get; set; }
     DbSet<TeacherCourse> TeachersCourse { get; set; }
     DbSet<RolePermission> RolePermissions { get; set; }
+    DbSet<StudentProfilePhoto> StudentProfiles { get; set; }
+    DbSet<TeacherProfilePhoto> TeacherProfilePhotos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
