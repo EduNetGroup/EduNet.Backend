@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Domain.Entities.Roles;
 using EduNet.Backend.Domain.Entities.Users;
+using EduNet.Backend.Domain.Entities.Assets;
 using EduNet.Backend.Domain.Entities.Courses;
 using EduNet.Backend.Domain.Entities.Branches;
 using EduNet.Backend.Domain.Entities.Payments;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Domain.Entities.Teachers;
 using EduNet.Backend.Domain.Entities.Messages;
-using EduNet.Backend.Domain.Entities.Assets;
 
 namespace EduNet.Backend.Data.DbContexts;
 
@@ -32,7 +32,7 @@ public class AppDbContext : DbContext
     DbSet<Enrollment> Enrollments { get; set; }
     DbSet<TeacherCourse> TeachersCourse { get; set; }
     DbSet<RolePermission> RolePermissions { get; set; }
-    DbSet<StudentProfilePhoto> StudentProfiles { get; set; }
+    DbSet<StudentProfilePhoto> StudentProfilePhotos { get; set; }
     DbSet<TeacherProfilePhoto> TeacherProfilePhotos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

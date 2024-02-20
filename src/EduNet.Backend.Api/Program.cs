@@ -23,6 +23,8 @@ public class Program
         //// ServiceExtension
         builder.Services.AddCustomService();
 
+        builder.Services.AddHttpContextAccessor();
+
         //// Logger 
         var logger = new LoggerConfiguration()
           .ReadFrom.Configuration(builder.Configuration)
