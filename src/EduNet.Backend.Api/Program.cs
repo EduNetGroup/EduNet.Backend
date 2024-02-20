@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Api.Extensions;
 using EduNet.Backend.Data.DbContexts;
+using EduNet.Backend.Service.Helpers;
 
 namespace EduNet.Backend.Api;
 
@@ -25,6 +26,9 @@ public class Program
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
+
+        //// EnvironmentHelper
+        EnvironmentHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
