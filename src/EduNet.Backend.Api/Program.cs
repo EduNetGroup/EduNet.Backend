@@ -1,4 +1,5 @@
 using Serilog;
+using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Api.Extensions;
 using EduNet.Backend.Data.DbContexts;
@@ -22,6 +23,13 @@ public class Program
 
         //// ServiceExtension
         builder.Services.AddCustomService();
+
+        //// Fix the Cycle
+        builder.Services.AddControllers()
+             .AddNewtonsoftJson(options =>
+             {
+                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+             });
 
         //// Logger 
         var logger = new LoggerConfiguration()
