@@ -75,8 +75,7 @@ public class CourseService : ICourseService
     public async Task<IEnumerable<CourseForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var courseData = await _coursesRepository
-            .SelectAll()
-            .Where(c => !c.IsDeleted)
+            .SelectAll(c => !c.IsDeleted)
             .Include(c => c.Teachers.Where(t => !t.IsDeleted))
             .Include(c => c.Students.Where(s => !s.IsDeleted))
             .Include(c => c.Lessons.Where(l => !l.IsDeleted))
@@ -91,8 +90,8 @@ public class CourseService : ICourseService
     public async Task<CourseForResultDto> RetrieveByIdAsync(long id)
     {
         var courseData = await _coursesRepository
-            .SelectAll()
-            .Where(c => !c.IsDeleted && c.Id == id)
+            .SelectAll(c => !c.IsDeleted)
+            .Where(c => c.Id == id)
             .Include(c => c.Teachers.Where(t => !t.IsDeleted))
             .Include(c => c.Students.Where(s => !s.IsDeleted))
             .Include(c => c.Lessons.Where(l => !l.IsDeleted))
@@ -108,9 +107,8 @@ public class CourseService : ICourseService
     public async Task<IEnumerable<CourseForResultDto>> SearchAllAsync(string search, PaginationParams @params)
     {
         var courseData = await _coursesRepository
-            .SelectAll()
-            .Where(c => !c.IsDeleted
-                && c.Name.ToLower().Contains(search.ToLower())
+            .SelectAll(c => !c.IsDeleted)
+            .Where(c => c.Name.ToLower().Contains(search.ToLower())
                 || c.Description.ToLower().Contains(search.ToLower()))
             .Include(c => c.Teachers.Where(t => !t.IsDeleted))
             .Include(c => c.Students.Where(s => !s.IsDeleted))
