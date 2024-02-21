@@ -43,7 +43,9 @@ public class BranchService : IBranchService
         var mappedData = _mapper.Map(dto, branchData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        return _mapper.Map<BranchForResultDto>(await _branchRepository.UpdateAsync(mappedData));
+        await _branchRepository.UpdateAsync(mappedData);
+
+        return _mapper.Map<BranchForResultDto>(mappedData);
     }
 
     public async Task<bool> RemoveAsync(long id)

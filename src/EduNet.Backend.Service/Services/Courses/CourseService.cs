@@ -58,8 +58,10 @@ public class CourseService : ICourseService
 
         var mappedData = _mapper.Map(dto, courseData);
         mappedData.UpdatedAt = DateTime.UtcNow;
-        
-        return _mapper.Map<CourseForResultDto>(await _coursesRepository.UpdateAsync(mappedData));
+
+        await _coursesRepository.UpdateAsync(mappedData);
+
+        return _mapper.Map<CourseForResultDto>(mappedData);
     }
 
     public async Task<bool> RemoveAsync(long id)
