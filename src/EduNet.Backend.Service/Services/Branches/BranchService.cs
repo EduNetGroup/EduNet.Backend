@@ -89,8 +89,8 @@ public class BranchService : IBranchService
     {
         var branchData = await _branchRepository
             .SelectAll()
-            .Where(b => !b.IsDeleted)
-            .Where(b => b.Name.ToLower().Contains(search.ToLower())
+            .Where(b => !b.IsDeleted 
+                && b.Name.ToLower().Contains(search.ToLower())
                 || b.Description.ToLower().Contains(search.ToLower())
                 || b.Address.ToLower().Contains(search.ToLower())
                 || b.PhoneNumber.Contains(search))
