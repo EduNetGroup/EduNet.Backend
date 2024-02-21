@@ -7,7 +7,6 @@ public class CourseForUpdateDto
     public decimal Price { get; set; }
     public string StartTime { get; set; }
     public string DurationTime { get; set; }
-    public long TeacherCourseId { get; set; }
-    public long EnrollmentId { get; set; }
+    public long BranchId { get; set; }
     public short Duration { get; set; }
 }
