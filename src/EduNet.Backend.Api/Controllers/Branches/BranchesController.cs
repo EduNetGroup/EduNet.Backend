@@ -93,12 +93,12 @@ public class BranchesController : BaseController
     /// <param name="search"></param>
     /// <param name="params"></param>
     /// <returns></returns>
-    [HttpGet("{branches}")]
-    public async Task<IActionResult> GetAllBySearchAsync([FromHeader] string search, [FromQuery] PaginationParams @params)
+    [HttpGet("search")]
+    public async Task<IActionResult> GetAllBySearchAsync([FromQuery(Name = "search")] string search, [FromQuery] PaginationParams @params)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
             Data = await _branchService.SearchAllAsync(search, @params)
         });
-}   
+}

@@ -11,7 +11,7 @@ public static class ServiceExtension
     public static void AddCustomService(this IServiceCollection services)
     {
         // MappingProfile
-        services.AddScoped(typeof(MappingProfile));
+        services.AddAutoMapper(typeof(MappingProfile));
         
         // Repository
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

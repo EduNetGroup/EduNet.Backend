@@ -13,7 +13,6 @@ public class ExceptionHandlerMiddleWare
         this._next = next;
         this._logger = logger;
     }
-
     public async Task Invoke(HttpContext context)
     {
         try
