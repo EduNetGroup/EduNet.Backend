@@ -43,9 +43,7 @@ public class BranchService : IBranchService
         var mappedData = _mapper.Map(dto, branchData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        await _branchRepository.UpdateAsync(mappedData);
-
-        return _mapper.Map<BranchForResultDto>(mappedData);
+        return _mapper.Map<BranchForResultDto>(await _branchRepository.UpdateAsync(mappedData));
     }
 
     public async Task<bool> RemoveAsync(long id)
@@ -75,7 +73,12 @@ public class BranchService : IBranchService
     public async Task<BranchForResultDto> RetrieveByIdAsync(long id)
     {
         var branchData = await _branchRepository
-            .SelectAsync(b => b.Id == id && !b.IsDeleted);
+            .SelectAll()
+            .Where(b => b.Id == id && !b.IsDeleted)
+            .Include(b => b.Users.Where(u => !u.IsDeleted))
+            .Include(b => b.Courses.Where(c => !c.IsDeleted))
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
         if (branchData is null)
             throw new EduNetException(404, "Branch is not found");
 
@@ -96,7 +99,7 @@ public class BranchService : IBranchService
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
-            
-            return _mapper.Map<IEnumerable<BranchForResultDto>>(branchData);
+
+        return _mapper.Map<IEnumerable<BranchForResultDto>>(branchData);
     }
 }
