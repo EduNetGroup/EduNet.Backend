@@ -59,8 +59,7 @@ public class BranchService : IBranchService
     public async Task<IEnumerable<BranchForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var branchData = await _branchRepository
-            .SelectAll()
-            .Where(b => !b.IsDeleted)
+            .SelectAll(b => !b.IsDeleted)
             .Include(b => b.Users.Where(u => !u.IsDeleted))
             .Include(b => b.Courses.Where(c => !c.IsDeleted))
             .AsNoTracking()
@@ -73,8 +72,8 @@ public class BranchService : IBranchService
     public async Task<BranchForResultDto> RetrieveByIdAsync(long id)
     {
         var branchData = await _branchRepository
-            .SelectAll()
-            .Where(b => b.Id == id && !b.IsDeleted)
+            .SelectAll(b => !b.IsDeleted)
+            .Where(b => b.Id == id)
             .Include(b => b.Users.Where(u => !u.IsDeleted))
             .Include(b => b.Courses.Where(c => !c.IsDeleted))
             .AsNoTracking()
@@ -88,9 +87,8 @@ public class BranchService : IBranchService
     public async Task<IEnumerable<BranchForResultDto>> SearchAllAsync(string search, PaginationParams @params)
     {
         var branchData = await _branchRepository
-            .SelectAll()
-            .Where(b => !b.IsDeleted 
-                && b.Name.ToLower().Contains(search.ToLower())
+            .SelectAll(b => !b.IsDeleted)
+            .Where(b => b.Name.ToLower().Contains(search.ToLower())
                 || b.Description.ToLower().Contains(search.ToLower())
                 || b.Address.ToLower().Contains(search.ToLower())
                 || b.PhoneNumber.Contains(search))
