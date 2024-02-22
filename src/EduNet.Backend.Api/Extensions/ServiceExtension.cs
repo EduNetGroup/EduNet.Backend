@@ -21,5 +21,6 @@ public static class ServiceExtension
         // Services
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ILessonService, LessonService>();
     }
 }

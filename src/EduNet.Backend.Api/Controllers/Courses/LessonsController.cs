@@ -3,35 +3,34 @@ using EduNet.Backend.Api.Models;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Api.Controllers.Commons;
 using EduNet.Backend.Service.Interfaces.Courses;
-using EduNet.Backend.Service.DTOs.Courses.Courses;
+using EduNet.Backend.Service.DTOs.Courses.Lessons;
 
 namespace EduNet.Backend.Api.Controllers.Courses;
 
-public class CoursesController : BaseController
+public class LessonsController : BaseController
 {
-    private readonly ICourseService _courseService;
+    private readonly ILessonService _lessonService;
 
-    public CoursesController(ICourseService courseService)
+    public LessonsController(ILessonService lessonService)
     {
-        _courseService = courseService;
+        _lessonService = lessonService;
     }
-
     /// <summary>
-    /// To Create course
+    /// To Create lesson
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> PostAsync([FromBody] CourseForCreationDto dto)
+    public async Task<IActionResult> PostAsync([FromBody] LessonForCreationDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.AddAsync(dto)
+            Data = await _lessonService.AddAsync(dto)
         });
 
     /// <summary>
-    /// To Get all courses
+    /// To Get all lessons
     /// </summary>
     /// <param name="params"></param>
     /// <returns></returns>
@@ -41,11 +40,11 @@ public class CoursesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.RetrieveAllAsync(@params)
+            Data = await _lessonService.RetrieveAllAsync(@params)
         });
 
     /// <summary>
-    /// To Get course by id
+    /// To Get lesson by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -55,26 +54,26 @@ public class CoursesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.RetrieveByIdAsync(id)
+            Data = await _lessonService.RetrieveByIdAsync(id)
         });
 
     /// <summary>
-    /// To update course by id
+    /// To Update lesson by id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] CourseForUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] LessonForUpdateDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.ModifyAsync(id, dto)
+            Data = await _lessonService.ModifyAsync(id, dto)
         });
 
     /// <summary>
-    /// To delete course by id
+    /// To Delete lesson by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -84,11 +83,11 @@ public class CoursesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.RemoveAsync(id)
+            Data = await _lessonService.RemoveAsync(id)
         });
 
     /// <summary>
-    /// To get all courses by searching
+    /// To Get all lessons by searching
     /// </summary>
     /// <param name="search"></param>
     /// <param name="params"></param>
@@ -99,6 +98,6 @@ public class CoursesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _courseService.SearchAllAsync(search, @params)
+            Data = await _lessonService.SearchAllAsync(search, @params)
         });
 }
