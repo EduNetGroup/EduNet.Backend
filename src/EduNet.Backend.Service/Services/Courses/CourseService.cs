@@ -15,16 +15,16 @@ public class CourseService : ICourseService
 {
     private readonly IMapper _mapper;
     private readonly IRepository<Branch> _branchRepository;
-    private readonly IRepository<Course> _coursesRepository;
+    private readonly IRepository<Course> _courseRepository;
 
     public CourseService(
         IMapper mapper,
         IRepository<Branch> branchRepository,
-        IRepository<Course> coursesRepository)
+        IRepository<Course> courseRepository)
     {
         _mapper = mapper;
         _branchRepository = branchRepository;
-        _coursesRepository = coursesRepository;
+        _courseRepository = courseRepository;
     }
 
     public async Task<CourseForResultDto> AddAsync(CourseForCreationDto dto)
@@ -34,14 +34,14 @@ public class CourseService : ICourseService
         if (branchData is null)
             throw new EduNetException(404, "Branch is not found");
 
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAsync(c => !c.IsDeleted && c.Name.ToLower() == dto.Name.ToLower());
         if (courseData is not null)
             throw new EduNetException(409, "Course is already exist");
 
         var mappedData = _mapper.Map<Course>(dto);
 
-        return _mapper.Map<CourseForResultDto>(await _coursesRepository.InsertAsync(mappedData));
+        return _mapper.Map<CourseForResultDto>(await _courseRepository.InsertAsync(mappedData));
     }
 
     public async Task<CourseForResultDto> ModifyAsync(long id, CourseForUpdateDto dto)
@@ -51,7 +51,7 @@ public class CourseService : ICourseService
         if (branchData is null)
             throw new EduNetException(404, "Branch is not found");
 
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAsync(c => c.Id == id && !c.IsDeleted);
         if (courseData is null)
             throw new EduNetException(404, "Course is not found");
@@ -59,24 +59,24 @@ public class CourseService : ICourseService
         var mappedData = _mapper.Map(dto, courseData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        await _coursesRepository.UpdateAsync(mappedData);
+        await _courseRepository.UpdateAsync(mappedData);
 
         return _mapper.Map<CourseForResultDto>(mappedData);
     }
 
     public async Task<bool> RemoveAsync(long id)
     {
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAsync(c => c.Id == id && !c.IsDeleted);
         if (courseData is null)
             throw new EduNetException(404, "Course is not found");
 
-        return await _coursesRepository.DeleteAsync(id);
+        return await _courseRepository.DeleteAsync(id);
     }
 
     public async Task<IEnumerable<CourseForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAll(c => !c.IsDeleted)
             .Include(c => c.Teachers.Where(t => !t.IsDeleted))
             .Include(c => c.Students.Where(s => !s.IsDeleted))
@@ -91,7 +91,7 @@ public class CourseService : ICourseService
 
     public async Task<CourseForResultDto> RetrieveByIdAsync(long id)
     {
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAll(c => !c.IsDeleted)
             .Where(c => c.Id == id)
             .Include(c => c.Teachers.Where(t => !t.IsDeleted))
@@ -108,7 +108,7 @@ public class CourseService : ICourseService
 
     public async Task<IEnumerable<CourseForResultDto>> SearchAllAsync(string search, PaginationParams @params)
     {
-        var courseData = await _coursesRepository
+        var courseData = await _courseRepository
             .SelectAll(c => !c.IsDeleted)
             .Where(c => c.Name.ToLower().Contains(search.ToLower())
                 || c.Description.ToLower().Contains(search.ToLower()))
