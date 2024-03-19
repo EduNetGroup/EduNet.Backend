@@ -76,7 +76,7 @@ public class LessonService : ILessonService
     {
         var lessonData = await _lessonRepository
             .SelectAll(l => !l.IsDeleted)
-            .Include(l => l.Course.IsDeleted == false)
+            .Include(l => l.Course)
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
@@ -88,8 +88,8 @@ public class LessonService : ILessonService
     {
         var lessonData = await _lessonRepository
             .SelectAll(l => !l.IsDeleted)
-            .Where(l => l.Id == id)
-            .Include(l =>l.Course.IsDeleted == false)
+            .Where(l => l.Id == id && l.Course.IsDeleted == false)
+            .Include(c => c.Course)
             .AsNoTracking()
             .FirstOrDefaultAsync();
         if (lessonData is null)
@@ -104,8 +104,7 @@ public class LessonService : ILessonService
            .SelectAll(l => !l.IsDeleted)
            .Where(l => l.Name.ToLower().Contains(search.ToLower())
                || l.Description.ToLower().Contains(search.ToLower())
-               || l.Date.Contains(search))
-           .Include(l => l.Course.IsDeleted == false)
+               || l.Date.ToString().Contains(search))
            .AsNoTracking()
            .ToPagedList(@params)
            .ToListAsync();

@@ -3,6 +3,7 @@
 public class PaymentForUpdateDto
 {
     public long StudentId { get; set; }
+    public long BranchId { get; set; }
     public decimal Amount { get; set; }
     public string Date { get; set; }
 }
