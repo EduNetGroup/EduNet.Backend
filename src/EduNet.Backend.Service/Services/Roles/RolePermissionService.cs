@@ -1,5 +1,91 @@
-﻿namespace EduNet.Backend.Service.Services.Roles;
+﻿using AutoMapper;
+using EduNet.Backend.Data.IRepositories;
+using EduNet.Backend.Service.Exceptions;
+using EduNet.Backend.Domain.Entities.Roles;
+using EduNet.Backend.Service.Configurations;
+using EduNet.Backend.Service.Interfaces.Roles;
+using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
 
-public class RolePermissionService
+namespace EduNet.Backend.Service.Services.Roles;
+
+public class RolePermissionService : IRolePermissionService
 {
+    private readonly IMapper _mapper;
+    private readonly IRepository<Role> _roleRepository;
+    private readonly IRepository<Permission> _permissionRepository;
+    private readonly IRepository<RolePermission> _rolePermissionRepository;
+
+    public RolePermissionService(
+        IMapper mapper,
+        IRepository<Role> roleRepository,
+        IRepository<Permission> permissionRepository,
+        IRepository<RolePermission> rolePermissionRepository)
+    {
+        _mapper = mapper;
+        _roleRepository = roleRepository;
+        _permissionRepository = permissionRepository;
+        _rolePermissionRepository = rolePermissionRepository;
+    }
+
+    public async Task<RolePermissionForResultDto> AddAsync(RolePermissionForCreationDto dto)
+    {
+        var roleData = await _roleRepository
+            .SelectAsync(r => r.Id == dto.RoleId);
+        if (roleData is null)
+            throw new EduNetException(404, "Role is not found");
+
+        var permissionData = await _permissionRepository
+            .SelectAsync(p => p.Id == dto.PermissionId);
+        if (permissionData is null)
+            throw new EduNetException(404, "Permission is not found");
+
+        var mappedData = _mapper.Map<RolePermission>(dto);
+
+        return _mapper.Map<RolePermissionForResultDto>(await _rolePermissionRepository.InsertAsync(mappedData));
+    }
+
+    public async Task<RolePermissionForResultDto> ModifyAsync(long id, RolePermissionForUpdateDto dto)
+    {
+        var roleData = await _roleRepository
+            .SelectAsync(r => r.Id == dto.RoleId);
+        if (roleData is null)
+            throw new EduNetException(404, "Role is not found");
+
+        var permissionData = await _permissionRepository
+            .SelectAsync(p => p.Id == dto.PermissionId);
+        if (permissionData is null)
+            throw new EduNetException(404, "Permission is not found");
+
+        var rolePermissionData = await _rolePermissionRepository
+            .SelectAsync(rp => rp.Id == id);
+        if (rolePermissionData is null)
+            throw new EduNetException(404, "RolePermission is not found");
+
+        var mappedData = _mapper.Map(dto, rolePermissionData);
+        mappedData.UpdatedAt = DateTime.UtcNow;
+
+        await _rolePermissionRepository.UpdateAsync(mappedData);
+
+        return _mapper.Map<RolePermissionForResultDto>(mappedData);
+    }
+
+    public Task<bool> RemoveAsync(long id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<RolePermissionForResultDto>> RetrieveAllAsync(PaginationParams @params)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<RolePermissionForResultDto> RetrieveByIdAsync(long id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<RolePermissionForResultDto>> SearchAllAsync(string search, PaginationParams @params)
+    {
+        throw new NotImplementedException();
+    }
 }
