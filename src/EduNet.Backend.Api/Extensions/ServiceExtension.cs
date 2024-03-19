@@ -2,9 +2,11 @@
 using EduNet.Backend.Data.Repositories;
 using EduNet.Backend.Data.IRepositories;
 using EduNet.Backend.Service.Services.Courses;
+using EduNet.Backend.Service.Services.Payments;
 using EduNet.Backend.Service.Services.Branches;
 using EduNet.Backend.Service.Interfaces.Courses;
 using EduNet.Backend.Service.Interfaces.Branches;
+using EduNet.Backend.Service.Interfaces.Payments;
 
 namespace EduNet.Backend.Api.Extensions;
 
@@ -22,5 +24,6 @@ public static class ServiceExtension
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
+        services.AddScoped<IPaymentService, PaymentService>();
     }
 }
