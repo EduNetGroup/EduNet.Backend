@@ -5,6 +5,8 @@ using EduNet.Backend.Domain.Entities.Roles;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
+using Microsoft.EntityFrameworkCore;
+using EduNet.Backend.Service.Extensions;
 
 namespace EduNet.Backend.Service.Services.Roles;
 
@@ -69,19 +71,41 @@ public class RolePermissionService : IRolePermissionService
         return _mapper.Map<RolePermissionForResultDto>(mappedData);
     }
 
-    public Task<bool> RemoveAsync(long id)
+    public async Task<bool> RemoveAsync(long id)
     {
-        throw new NotImplementedException();
+        var rolePermissionData = await _rolePermissionRepository
+            .SelectAsync(rp => rp.Id == id);
+        if (rolePermissionData is null)
+            throw new EduNetException(404, "RolePermission is not found");
+
+        return await _rolePermissionRepository.DeleteAsync(id);
     }
 
-    public Task<IEnumerable<RolePermissionForResultDto>> RetrieveAllAsync(PaginationParams @params)
+    public async Task<IEnumerable<RolePermissionForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
-        throw new NotImplementedException();
+        var rolePermissionData = await _rolePermissionRepository
+            .SelectAll(rp => !rp.IsDeleted)
+            .Include(rp => rp.Role)
+            .Include(rp => rp.Permission)
+            .AsNoTracking()
+            .ToPagedList(@params)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<RolePermissionForResultDto>>(rolePermissionData);
     }
 
-    public Task<RolePermissionForResultDto> RetrieveByIdAsync(long id)
+    public async Task<RolePermissionForResultDto> RetrieveByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var rolePermissionData = await _rolePermissionRepository
+            .SelectAll(rp => !rp.IsDeleted)
+            .Include(rp => rp.Role)
+            .Include(rp => rp.Permission)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+        if (rolePermissionData is null)
+            throw new EduNetException(404, "RolePermission is not found");
+
+        return _mapper.Map<RolePermissionForResultDto>(rolePermissionData);
     }
 
     public Task<IEnumerable<RolePermissionForResultDto>> SearchAllAsync(string search, PaginationParams @params)

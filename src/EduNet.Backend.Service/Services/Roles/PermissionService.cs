@@ -62,6 +62,7 @@ public class PermissionService : IPermissionService
     {
         var permissionData = await _permissionRepository
             .SelectAll(p => !p.IsDeleted)
+            .Include(P => P.Roles.Where(r => !r.IsDeleted))
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
@@ -72,7 +73,10 @@ public class PermissionService : IPermissionService
     public async Task<PermissionForResultDto> RetrieveByIdAsync(long id)
     {
         var permissionData = await _permissionRepository
-            .SelectAsync(p => p.Id == id);
+            .SelectAll(p => !p.IsDeleted)
+            .Include(P => P.Roles.Where(r => !r.IsDeleted))
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
         if (permissionData is null)
             throw new EduNetException(404, "Permission is not found");
 
