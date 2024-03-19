@@ -101,6 +101,20 @@ public class PaymentService : IPaymentService
         return _mapper.Map<IEnumerable<PaymentForResultDto>>(paymentData);
     }
 
+    public async Task<IEnumerable<PaymentForResultDto>> RetrieveAllByStudentIdAsync(long studentId, PaginationParams @params)
+    {
+        var paymentData = await _paymentRepository
+            .SelectAll(p => !p.IsDeleted)
+            .Where(p => p.StudentId == studentId)
+            .Include(p => p.Student)
+            .Include(p => p.Branch)
+            .AsNoTracking()
+            .ToPagedList(@params)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<PaymentForResultDto>>(paymentData);
+    }
+
     public async Task<PaymentForResultDto> RetrieveByIdAsync(long id)
     {
         var paymentData = await _paymentRepository
@@ -119,7 +133,7 @@ public class PaymentService : IPaymentService
     {
         var paymentData = await _paymentRepository
             .SelectAll(p => !p.IsDeleted)
-            .Where(p => p.StudentId.ToString() == search.ToString())
+            .Where(p => p.Date.ToString().Contains(search.ToString()))
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();

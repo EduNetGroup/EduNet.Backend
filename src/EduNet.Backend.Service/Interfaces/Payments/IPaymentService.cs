@@ -11,4 +11,5 @@ public interface IPaymentService
     Task<PaymentForResultDto> ModifyAsync(long id, PaymentForUpdateDto dto);
     Task<IEnumerable<PaymentForResultDto>> RetrieveAllAsync(PaginationParams @params);
     Task<IEnumerable<PaymentForResultDto>> SearchAllAsync(string search, PaginationParams @params);
+    Task<IEnumerable<PaymentForResultDto>> RetrieveAllByStudentIdAsync(long studentId, PaginationParams @params);
 }

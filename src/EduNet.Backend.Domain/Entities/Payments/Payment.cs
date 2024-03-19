@@ -11,5 +11,5 @@ public class Payment : Auditable
     public long BranchId { get; set; }
     public Branch Branch { get; set; }
     public decimal Amount { get; set; }
-    public string Date { get; set; }
+    public DateTime Date { get; set; }
 }
