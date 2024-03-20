@@ -1,6 +1,8 @@
 ﻿using EduNet.Backend.Service.Mappers;
 using EduNet.Backend.Data.Repositories;
 using EduNet.Backend.Data.IRepositories;
+using EduNet.Backend.Service.Services.Roles;
+using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.Services.Courses;
 using EduNet.Backend.Service.Services.Payments;
 using EduNet.Backend.Service.Services.Branches;
@@ -21,6 +23,7 @@ public static class ServiceExtension
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         // Services
+        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();

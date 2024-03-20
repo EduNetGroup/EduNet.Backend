@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Data.IRepositories;
+using EduNet.Backend.Service.Exceptions;
+using EduNet.Backend.Service.Extensions;
 using EduNet.Backend.Domain.Entities.Roles;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Service.DTOs.Roles.Roles;
-using EduNet.Backend.Service.Exceptions;
-using EduNet.Backend.Service.Extensions;
 using EduNet.Backend.Service.Interfaces.Roles;
-using Microsoft.EntityFrameworkCore;
 
 namespace EduNet.Backend.Service.Services.Roles;
 
@@ -28,7 +28,9 @@ public class RoleService : IRoleService
         if (roleData is not null)
             throw new EduNetException(409, "Role is already exist");
 
-        var mappedData = _mapper.Map<RoleForResultDto>(roleData);
+        var mappedData = _mapper.Map<Role>(roleData);
+
+        return _mapper.Map<RoleForResultDto>(await _roleRepository.InsertAsync(mappedData));
     }
 
     public async Task<RoleForResultDto> ModifyAsync(long id, RoleForUpdateDto dto)
@@ -38,7 +40,7 @@ public class RoleService : IRoleService
         if (roleData is null)
             throw new EduNetException(404, "Role is not found");
 
-        var mappedData = _mapper.Map<Role>(roleData);
+        var mappedData = _mapper.Map(dto,roleData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
         await _roleRepository.UpdateAsync(mappedData);
@@ -77,6 +79,8 @@ public class RoleService : IRoleService
             .FirstOrDefaultAsync();
         if (roleData is null)
             throw new EduNetException(404, "Role is not found");
+
+        return _mapper.Map<RoleForResultDto>(roleData);
     }
 
     public async Task<IEnumerable<RoleForResultDto>> SearchAllAsync(string search, PaginationParams @params)
