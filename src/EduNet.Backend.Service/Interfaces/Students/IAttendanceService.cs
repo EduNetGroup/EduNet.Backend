@@ -10,5 +10,5 @@ public interface IAttendanceService
     Task<AttendanceForResultDto> AddAsync(AttendanceForCreationDto dto);
     Task<AttendanceForResultDto> ModifyAsync(long id, AttendanceForUpdateDto dto);
     Task<IEnumerable<AttendanceForResultDto>> RetrieveAllAsync(PaginationParams @params);
-    Task<IEnumerable<AttendanceForResultDto>> SearchAllAsync(string search, PaginationParams @params);
+    Task<IEnumerable<AttendanceForResultDto>> SearchAllByDateAsync(string search, PaginationParams @params);
 }

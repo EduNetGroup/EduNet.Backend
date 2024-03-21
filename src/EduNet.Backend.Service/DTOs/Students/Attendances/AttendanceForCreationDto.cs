@@ -6,6 +6,6 @@ public class AttendanceForCreationDto
 {
     public long StudentId { get; set; }
     public long CourseId { get; set; }
-    public string Date { get; set; }
+    public DateTime Date { get; set; }
     public Status Status { get; set; }
 }
