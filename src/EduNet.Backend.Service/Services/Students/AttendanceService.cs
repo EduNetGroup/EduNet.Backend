@@ -111,6 +111,8 @@ public class AttendanceService : IAttendanceService
             .FirstOrDefaultAsync();
         if (attendanceData is null)
             throw new EduNetException(404, "Attendance is not found");
+
+        return _mapper.Map<AttendanceForResultDto>(attendanceData);
     }
 
     public async Task<IEnumerable<AttendanceForResultDto>> SearchAllByDateAsync(string search, PaginationParams @params)

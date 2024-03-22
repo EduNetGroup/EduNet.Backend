@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduNet.Backend.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240220144527_AssetandProfilePhotoMigrations")]
-    partial class AssetandProfilePhotoMigrations
+    [Migration("20240322102227_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,9 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -133,11 +136,11 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<short>("Duration")
-                        .HasColumnType("smallint");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DurationTime")
-                        .HasColumnType("text");
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -148,8 +151,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("StartTime")
-                        .HasColumnType("text");
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -178,8 +181,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -254,8 +257,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -383,8 +386,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Date")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -427,8 +430,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("EnrollmentDate")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("EnrollmentDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -459,8 +462,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -507,8 +510,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -526,6 +529,9 @@ namespace EduNet.Backend.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Specialization")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TelegramUserName")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -553,6 +559,9 @@ namespace EduNet.Backend.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -590,9 +599,6 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -621,9 +627,6 @@ namespace EduNet.Backend.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TelegramUserName")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -727,7 +730,8 @@ namespace EduNet.Backend.Data.Migrations
                     b.Property<long>("TeacherId")
                         .HasColumnType("bigint");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("TeacherId")
+                        .IsUnique();
 
                     b.HasDiscriminator().HasValue("TeacherProfilePhoto");
                 });
@@ -924,8 +928,8 @@ namespace EduNet.Backend.Data.Migrations
             modelBuilder.Entity("EduNet.Backend.Domain.Entities.Teachers.TeacherProfilePhoto", b =>
                 {
                     b.HasOne("EduNet.Backend.Domain.Entities.Teachers.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
+                        .WithOne("TeacherProfilePhoto")
+                        .HasForeignKey("EduNet.Backend.Domain.Entities.Teachers.TeacherProfilePhoto", "TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -976,6 +980,8 @@ namespace EduNet.Backend.Data.Migrations
             modelBuilder.Entity("EduNet.Backend.Domain.Entities.Teachers.Teacher", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("TeacherProfilePhoto");
                 });
 
             modelBuilder.Entity("EduNet.Backend.Domain.Entities.Users.User", b =>
