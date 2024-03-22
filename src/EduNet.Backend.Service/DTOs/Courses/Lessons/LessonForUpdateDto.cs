@@ -6,5 +6,5 @@ public class LessonForUpdateDto
     public string Description { get; set; }
     public string Content { get; set; }
     public long CourseId { get; set; }
-    public string Date { get; set; }
+    public DateTime Date { get; set; }
 }

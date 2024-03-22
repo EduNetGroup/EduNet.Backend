@@ -10,5 +10,5 @@ public class EnrollmentForResultDto
     public Student Student { get; set; }
     public long CourseId { get; set; }
     public Course Course { get; set; }
-    public string EnrollmentDate { get; set; }
+    public DateTime EnrollmentDate { get; set; }
 }
