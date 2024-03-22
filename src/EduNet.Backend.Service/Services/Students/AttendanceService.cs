@@ -120,6 +120,8 @@ public class AttendanceService : IAttendanceService
         var attendanceData = await _attendanceRepository
             .SelectAll(a => !a.IsDeleted)
             .Where(a => a.Date.ToString("dd/MM/yyyy") == search)
+            .Include(a => a.Student)
+            .Include( a => a.Course)
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
