@@ -14,7 +14,7 @@ public class StudentForResultDto
     public long UserId { get; set; }
     public User User { get; set; }
     public string PhoneNumber { get; set; }
-    public string DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public string IsGraduated { get; set; }
     public ICollection<PaymentForResultDto> Payments { get; set; }
     public ICollection<EnrollmentForResultDto> Courses { get; set; }

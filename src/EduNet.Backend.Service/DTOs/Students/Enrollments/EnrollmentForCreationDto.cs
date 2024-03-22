@@ -9,5 +9,5 @@ public class EnrollmentForCreationDto
     [Required]
     public long CourseId { get; set; }
     [Required]
-    public string EnrollmentDate { get; set; }
+    public DateTime EnrollmentDate { get; set; }
 }

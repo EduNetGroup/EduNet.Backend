@@ -9,5 +9,5 @@ public class Lesson : Auditable
     public string Content { get; set; }
     public long CourseId { get; set; }
     public Course Course { get; set; }
-    public string Date { get; set; }
+    public DateTime Date { get; set; }
 }

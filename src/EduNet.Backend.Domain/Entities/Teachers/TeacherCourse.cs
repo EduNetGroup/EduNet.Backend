@@ -9,4 +9,5 @@ public class TeacherCourse : Auditable
     public Teacher Teacher { get; set; }
     public long CourseId { get; set; }
     public Course Course { get; set; }
+    public DateTime Date { get; set; }
 }

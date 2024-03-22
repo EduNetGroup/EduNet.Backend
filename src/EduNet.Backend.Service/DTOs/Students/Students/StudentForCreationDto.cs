@@ -7,5 +7,5 @@ public class StudentForCreationDto
     public string TelegramUserName { get; set; }
     public long UserId { get; set; }
     public string PhoneNumber { get; set; }
-    public string DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 }
