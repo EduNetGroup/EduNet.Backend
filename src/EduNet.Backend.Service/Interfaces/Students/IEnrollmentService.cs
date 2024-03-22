@@ -10,5 +10,5 @@ public interface IEnrollmentService
     Task<EnrollmentForResultDto> AddAsync(EnrollmentForCreationDto dto);
     Task<EnrollmentForResultDto> ModifyAsync(long id, EnrollmentForUpdateDto dto);
     Task<IEnumerable<EnrollmentForResultDto>> RetrieveAllAsync(PaginationParams @params);
-    Task<IEnumerable<EnrollmentForResultDto>> SearchAllAsync(string search, PaginationParams @params);
+    Task<IEnumerable<EnrollmentForResultDto>> SearchAllByDateAsync(string search, PaginationParams @params);
 }

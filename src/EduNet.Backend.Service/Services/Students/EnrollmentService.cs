@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Data.IRepositories;
+using EduNet.Backend.Service.Exceptions;
+using EduNet.Backend.Service.Extensions;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Domain.Entities.Courses;
 using EduNet.Backend.Domain.Entities.Students;
 using EduNet.Backend.Service.Interfaces.Students;
 using EduNet.Backend.Service.DTOs.Students.Enrollments;
-using EduNet.Backend.Service.Exceptions;
-using Microsoft.EntityFrameworkCore;
-using EduNet.Backend.Service.Extensions;
 
 namespace EduNet.Backend.Service.Services.Students;
 
