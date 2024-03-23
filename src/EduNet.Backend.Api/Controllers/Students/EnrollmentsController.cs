@@ -17,7 +17,6 @@ public class EnrollmentsController : BaseController
         _enrollmentService = enrollmentService;
     }
 
-
     /// <summary>
     /// To Create enrollment
     /// </summary>
