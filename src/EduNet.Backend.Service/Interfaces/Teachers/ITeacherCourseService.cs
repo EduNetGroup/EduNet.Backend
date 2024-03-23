@@ -10,5 +10,5 @@ public interface ITeacherCourseService
     Task<TeacherCourseForResultDto> AddAsync(TeacherCourseForCreationDto dto);
     Task<TeacherCourseForResultDto> ModifyAsync(long id, TeacherCourseForUpdateDto dto);
     Task<IEnumerable<TeacherCourseForResultDto>> RetrieveAllAsync(PaginationParams @params);
-    Task<IEnumerable<TeacherCourseForResultDto>> SearchAllAsync(string search, PaginationParams @params);
+    Task<IEnumerable<TeacherCourseForResultDto>> SearchAllByDateAsync(string search, PaginationParams @params);
 }
