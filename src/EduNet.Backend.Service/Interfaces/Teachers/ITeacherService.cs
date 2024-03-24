@@ -16,5 +16,4 @@ public interface ITeacherService
     Task<bool> RemoveProfilePhotoAsync(long teacherId);
     Task<TeacherProfilePhotoForResultDto> RetrieveProfilePhotoAsync(long teacherId);
     Task<TeacherProfilePhotoForResultDto> AddProfilePhotoAsync(long teacherId, IFormFile forFile);
-    Task<TeacherProfilePhotoForResultDto> ModifyProfilePhotoAsync(long teacherId, IFormFile formFile);
 }
