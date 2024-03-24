@@ -4,6 +4,7 @@ using EduNet.Backend.Data.IRepositories;
 using EduNet.Backend.Service.Services.Roles;
 using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.Services.Courses;
+using EduNet.Backend.Service.Services.Teachers;
 using EduNet.Backend.Service.Services.Payments;
 using EduNet.Backend.Service.Services.Students;
 using EduNet.Backend.Service.Services.Branches;
@@ -11,6 +12,7 @@ using EduNet.Backend.Service.Interfaces.Courses;
 using EduNet.Backend.Service.Interfaces.Branches;
 using EduNet.Backend.Service.Interfaces.Payments;
 using EduNet.Backend.Service.Interfaces.Students;
+using EduNet.Backend.Service.Interfaces.Teachers;
 
 namespace EduNet.Backend.Api.Extensions;
 
@@ -34,6 +36,7 @@ public static class ServiceExtension
         services.AddScoped<IEnrollmentService, EnrollmentService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IAttendanceService, AttendanceService>();
+        services.AddScoped<ITeacherCourseService, TeacherCourseService>();
         services.AddScoped<IRolePermissionService, RolePermissionService>();
     }
 }
