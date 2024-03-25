@@ -22,4 +22,9 @@
     <ProjectReference Include="..\EduNet.Backend.Service\EduNet.Backend.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Students\ProfilePhotos\" />
+    <Folder Include="wwwroot\Teachers\ProfilePhotos\" />
+  </ItemGroup>
+
 </Project>
