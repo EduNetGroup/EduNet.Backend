@@ -31,6 +31,7 @@ public static class ServiceExtension
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
+        services.AddScoped<ITeacherService, TeacherService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IEnrollmentService, EnrollmentService>();
