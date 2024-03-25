@@ -41,6 +41,11 @@ public class RolePermissionService : IRolePermissionService
         if (permissionData is null)
             throw new EduNetException(404, "Permission is not found");
 
+        var rolePermissionData = await _rolePermissionRepository
+            .SelectAsync(rp => rp.RoleId == dto.RoleId && rp.PermissionId == dto.PermissionId);
+        if (rolePermissionData is not null)
+            throw new EduNetException(404, "RolePermission is already exist");
+
         var mappedData = _mapper.Map<RolePermission>(dto);
 
         return _mapper.Map<RolePermissionForResultDto>(await _rolePermissionRepository.InsertAsync(mappedData));

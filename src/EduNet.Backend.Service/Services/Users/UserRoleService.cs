@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Data.IRepositories;
+using EduNet.Backend.Service.Extensions;
+using EduNet.Backend.Service.Exceptions;
 using EduNet.Backend.Domain.Entities.Roles;
 using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.Configurations;
-using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
-using EduNet.Backend.Service.DTOs.Users.UserRoles;
-using EduNet.Backend.Service.Exceptions;
-using EduNet.Backend.Service.Extensions;
 using EduNet.Backend.Service.Interfaces.Users;
-using Microsoft.EntityFrameworkCore;
+using EduNet.Backend.Service.DTOs.Users.UserRoles;
 
 namespace EduNet.Backend.Service.Services.Users;
 
