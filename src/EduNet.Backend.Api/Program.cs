@@ -55,6 +55,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseStaticFiles();
         app.UseHttpsRedirection();
 
         //// MiddleWare
