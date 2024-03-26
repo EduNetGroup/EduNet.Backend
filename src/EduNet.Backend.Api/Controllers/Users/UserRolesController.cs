@@ -1,10 +1,9 @@
-﻿using EduNet.Backend.Api.Controllers.Commons;
+﻿using Microsoft.AspNetCore.Mvc;
 using EduNet.Backend.Api.Models;
 using EduNet.Backend.Service.Configurations;
-using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
-using EduNet.Backend.Service.DTOs.Users.UserRoles;
+using EduNet.Backend.Api.Controllers.Commons;
 using EduNet.Backend.Service.Interfaces.Users;
-using Microsoft.AspNetCore.Mvc;
+using EduNet.Backend.Service.DTOs.Users.UserRoles;
 
 namespace EduNet.Backend.Api.Controllers.Users;
 
