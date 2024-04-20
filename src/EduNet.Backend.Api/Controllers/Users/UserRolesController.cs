@@ -2,35 +2,36 @@
 using EduNet.Backend.Api.Models;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Api.Controllers.Commons;
-using EduNet.Backend.Service.Interfaces.Roles;
-using EduNet.Backend.Service.DTOs.Roles.RolePermissions;
+using EduNet.Backend.Service.Interfaces.Users;
+using EduNet.Backend.Service.DTOs.Users.UserRoles;
 
-namespace EduNet.Backend.Api.Controllers.Roles;
+namespace EduNet.Backend.Api.Controllers.Users;
 
-public class RolePermissionsController : BaseController
+public class UserRolesController : BaseController
 {
-    private readonly IRolePermissionService _rolePermissionService;
-    public RolePermissionsController(IRolePermissionService rolePermissionService)
+    private readonly IUserRoleService _userRoleService;
+
+    public UserRolesController(IUserRoleService userRoleService)
     {
-        _rolePermissionService = rolePermissionService;
+        _userRoleService = userRoleService;
     }
 
     /// <summary>
-    /// To Add rolePermission 
+    /// To Add userRole
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> PostAsync([FromBody] RolePermissionForCreationDto dto)
+    public async Task<IActionResult> PostAsync([FromBody] UserRoleForCreationDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _rolePermissionService.AddAsync(dto)
+            Data = await _userRoleService.AddAsync(dto)
         });
 
     /// <summary>
-    /// To Get all rolePermissions 
+    /// To Get all userRole 
     /// </summary>
     /// <param name="params"></param>
     /// <returns></returns>
@@ -40,11 +41,11 @@ public class RolePermissionsController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _rolePermissionService.RetrieveAllAsync(@params)
+            Data = await _userRoleService.RetrieveAllAsync(@params)
         });
 
     /// <summary>
-    /// To Get rolePermission by id
+    /// To Get userRole by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -54,26 +55,26 @@ public class RolePermissionsController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _rolePermissionService.RetrieveByIdAsync(id)
+            Data = await _userRoleService.RetrieveByIdAsync(id)
         });
 
     /// <summary>
-    /// To Update rolePermission by id
+    /// To Update userRole by id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] RolePermissionForUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] UserRoleForUpdateDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _rolePermissionService.ModifyAsync(id, dto)
+            Data = await _userRoleService.ModifyAsync(id, dto)
         });
 
     /// <summary>
-    /// To Delete rolePermission by id
+    /// To Delete userRole by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -83,11 +84,11 @@ public class RolePermissionsController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _rolePermissionService.RemoveAsync(id)
+            Data = await _userRoleService.RemoveAsync(id)
         });
 
     /// <summary>
-    /// To Get rolePermissions by searching
+    /// To Get userRole by searching
     /// </summary>
     /// <param name="search"></param>
     /// <param name="params"></param>
@@ -98,6 +99,6 @@ public class RolePermissionsController : BaseController
     //    {
     //        StatusCode = 200,
     //        Message = "Success",
-    //        Data = await _rolePermissionService.SearchAllAsync(search, @params)
+    //        Data = await _userRoleService.SearchAllAsync(search, @params)
     //    });
 }

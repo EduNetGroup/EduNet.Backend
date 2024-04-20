@@ -2,6 +2,8 @@
 using EduNet.Backend.Data.Repositories;
 using EduNet.Backend.Data.IRepositories;
 using EduNet.Backend.Service.Services.Roles;
+using EduNet.Backend.Service.Services.Users;
+using EduNet.Backend.Service.Interfaces.Users;
 using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.Services.Courses;
 using EduNet.Backend.Service.Services.Teachers;
@@ -31,8 +33,10 @@ public static class ServiceExtension
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
+        services.AddScoped<ITeacherService, TeacherService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IUserRoleService, UserRoleService>();
         services.AddScoped<IEnrollmentService, EnrollmentService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IAttendanceService, AttendanceService>();
