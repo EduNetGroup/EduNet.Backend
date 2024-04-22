@@ -15,6 +15,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         _dbContext = dbContext;
         _dbSet = dbContext.Set<TEntity>();
     }
+
     public async Task<bool> DeleteAsync(long id)
     {
         var entity = await _dbSet.Where(e => e.Id == id).FirstOrDefaultAsync();
@@ -46,6 +47,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         await _dbContext.SaveChangesAsync();
         return model;
     }
+
     public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, string[] includes = null)
     {
         var query = expression is null ? _dbSet : _dbSet.Where(expression);
