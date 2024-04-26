@@ -15,8 +15,8 @@ public class User : Auditable
     public bool IsVerified { get; set; } = false;
     public string RefreshToken { get; set; }
     public DateTime ExpireDate { get; set; }
+    public Student Student { get; set; }
+    public Teacher Teacher { get; set; }
     public ICollection<UserRole> Roles { get; set; }
-    public ICollection<Teacher> Teachers { get; set; }
-    public ICollection<Student> Students { get; set; }
     public ICollection<UserCode> UserCodes { get; set; }
 }

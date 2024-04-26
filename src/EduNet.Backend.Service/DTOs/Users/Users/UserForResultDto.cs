@@ -17,8 +17,8 @@ public class UserForResultDto
     public bool IsVerified { get; set; } = false;
     public string RefreshToken { get; set; }
     public DateTime ExpireDate { get; set; }
+    public StudentForResultDto Student { get; set; }
+    public TeacherForResultDto Teacher { get; set; }
     public ICollection<UserRoleForResultDto> Roles { get; set; }
-    public ICollection<TeacherForResultDto> Teachers { get; set; }
-    public ICollection<StudentForResultDto> Students { get; set; }
     public ICollection<UserCodeForResultDto> UserCodes { get; set; }
 }
