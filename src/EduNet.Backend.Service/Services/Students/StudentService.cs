@@ -115,7 +115,7 @@ public class StudentService : IStudentService
         var mappedData = _mapper.Map(dto, studentData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        await _studentRepository.InsertAsync(mappedData);
+        await _studentRepository.UpdateAsync(mappedData);
 
         return _mapper.Map<StudentForResultDto>(mappedData);
     }

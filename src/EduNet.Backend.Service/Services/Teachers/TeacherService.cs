@@ -114,7 +114,7 @@ public class TeacherService : ITeacherService
         var mappedData = _mapper.Map(dto, teacherData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        await _teacherRepository.InsertAsync(mappedData);
+        await _teacherRepository.UpdateAsync(mappedData);
 
         return _mapper.Map<TeacherForResultDto>(mappedData);
     }
