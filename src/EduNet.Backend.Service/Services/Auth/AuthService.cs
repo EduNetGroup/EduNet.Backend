@@ -1,13 +1,13 @@
-﻿using EduNet.Backend.Service.DTOs.Users.Users;
-using EduNet.Backend.Service.Interfaces.Auth;
-using Microsoft.Extensions.Configuration;
+﻿using System.Text;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using Microsoft.Extensions.Configuration;
+using EduNet.Backend.Domain.Entities.Roles;
+using EduNet.Backend.Service.Interfaces.Auth;
+using EduNet.Backend.Service.DTOs.Users.Users;
 
 namespace EduNet.Backend.Service.Services.Auth;
 
@@ -44,10 +44,11 @@ public class AuthService : IAuthService
             Subject = new ClaimsIdentity(new Claim[]
             {
              new Claim("Id", user.Id.ToString()),
+             //new Claim("Role", user.Role.ToString()),
              new Claim("Email", user.Email),
              new Claim("Name", user.FirstName + " " + user.LastName),
              new Claim("PhoneNumber", user.PhoneNumber),
-            }.Concat(user.Roles.Select(role => new Claim("Role", role)))),
+            }),
             Audience = _configuration["JWT:Audience"],
             Issuer = _configuration["JWT:Issuer"],
             IssuedAt = DateTime.UtcNow,
@@ -63,6 +64,51 @@ public class AuthService : IAuthService
 
     public Task<UserForResultDto> GetUserByAccessTokenAsync(string accessToken)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(accessToken))
+            return Task.FromResult<UserForResultDto?>(null);
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        string secretKey = _configuration["JWT:Key"] ?? throw new ArgumentNullException("Key");
+        var key = Encoding.ASCII.GetBytes(secretKey);
+        try
+        {
+            tokenHandler.ValidateToken(accessToken, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                //ValidateIssuer = true,
+                //ValidIssuer = _configuration["Jwt:ValidIssuer"],
+                ValidateAudience = false,
+                //ValidateAudience = true,
+                //ValidAudience = _configuration["Jwt:ValidAudience"],
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            //Enum.TryParse(jwtToken.Claims.First(x => x.Type == "Role").Value, true, out Role role);
+            Role role = (Role)Enum.Parse(typeof(Role), jwtToken.Claims.First(x => x.Type == "Role").Value, true);
+            var user = new UserForResultDto
+            {
+                Id = long.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value),
+                FirstName = jwtToken.Claims.First(x => x.Type == "Name").Value.Split().First(),
+                LastName = jwtToken.Claims.First(x => x.Type == "Name").Value.Split().Last(),
+                //Role = role,
+                PhoneNumber = jwtToken.Claims.First(x => x.Type == "Phone").Value,
+                Email = jwtToken.Claims.First(x => x.Type == "Email").Value,
+                IsVerified = true,
+            };
+            return Task.FromResult<UserForResultDto?>(user);
+        }
+        catch (SecurityTokenExpiredException ex)
+        {
+            _logger.LogInformation("Token has expired");
+            throw;
+            //return Task.FromResult<User?>(null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error when validate token");
+            return Task.FromResult<UserForResultDto?>(null);
+        }
     }
 }
