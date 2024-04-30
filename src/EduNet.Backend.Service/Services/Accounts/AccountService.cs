@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EduNet.Backend.Service.Helpers;
+using EduNet.Backend.Service.Exceptions;
 using EduNet.Backend.Data.IRepositories;
 using EduNet.Backend.Service.DTOs.Logins;
 using EduNet.Backend.Domain.Entities.Users;
@@ -32,18 +34,75 @@ public class AccountService : IAccountService
         _userRepository = userRepository;
     }
 
-    public Task<bool> ChangePassword(string email, string password)
+    public async Task<bool> ChangePassword(string email, string password)
     {
-        throw new NotImplementedException();
-    }
+        var user = await _userRepository
+            .SelectAsync(u => u.Email == email);
 
-    public Task<LoginForResultDto> CreateAsync(UserForCreationDto user)
-    {
-        throw new NotImplementedException();
-    }
+        if (user is null || PasswordHasherHelper.IsEqual(Constants.PASSWORD_SALT, user.Password))
+            return false;
 
-    public Task<LoginForResultDto> LoginAsync(LoginForCreationDto login)
+        user.Password = PasswordHasherHelper.PasswordHasher(password);
+        return true;
+    }
+    public async Task<LoginForResultDto> CreateAsync(UserForCreationDto userModel)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository
+            .SelectAsync(u => u.Email == userModel.Email);
+
+        if (user is not null && !user.IsVerified)
+            throw new EduNetException(409, "Siz avval ro'yhatdan o'tgansiz, iltimos pochtangizni tasdiqlang va tizimga kiring!");
+
+        if (user is not null)
+            throw new EduNetException(409, "Siz avval ro'yhatdan o'tgansiz, iltimos pochta va parol orqali tizimga kiring!");
+
+        var mapped = _mapper.Map<User>(userModel);
+        mapped.CreatedAt = DateTime.UtcNow;
+        mapped.Password = PasswordHasherHelper.PasswordHasher(userModel.Password);
+        //mapped.Role = Role.Student;
+        (mapped.RefreshToken, mapped.ExpireDate) = await _authService.GenerateRefreshTokenAsync();
+
+        var result = await _userRepository.InsertAsync(mapped);
+
+        await _emailService.ResendCodeAsync(userModel.Email);
+
+        var userView = _mapper.Map<UserForResultDto>(result);
+        (string token, DateTime expireDate) = await _authService.GenerateTokenAsync(userView);
+        return new LoginForResultDto
+        {
+            Token = token,
+            AccessTokenExpireDate = expireDate,
+            RefreshToken = mapped.RefreshToken,
+            User = userView
+        };
+    }
+    public async Task<LoginForResultDto> LoginAsync(LoginForCreationDto login)
+    {
+        var user = await _userRepository
+             .SelectAsync(u => u.Email == login.Email);
+
+        var log = PasswordHasherHelper.PasswordHasher(login.Password);
+        var log2 = PasswordHasherHelper.PasswordHasher("string");
+        if (user is null || !PasswordHasherHelper.IsEqual(login.Password, user.Password))
+            throw new EduNetException(404, "Email yoki parol xato!");
+
+        if (!user.IsVerified)
+            throw new EduNetException(403, "Iltimos avval pochtangizni tasdiqlang!");
+
+        if (user.ExpireDate > DateTime.UtcNow)
+        {
+            (user.RefreshToken, user.ExpireDate) = await _authService.GenerateRefreshTokenAsync();
+            await _userService.ModifyAsync(user.Id, _mapper.Map<UserForUpdateDto>(user));
+        }
+
+        var userView = _mapper.Map<UserForResultDto>(user);
+        (string token, DateTime expireDate) = await _authService.GenerateTokenAsync(userView);
+        return new LoginForResultDto
+        {
+            Token = token,
+            AccessTokenExpireDate = expireDate,
+            RefreshToken = user.RefreshToken,
+            User = userView
+        };
     }
 }
