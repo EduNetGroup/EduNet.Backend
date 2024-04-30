@@ -3,9 +3,11 @@ using EduNet.Backend.Data.Repositories;
 using EduNet.Backend.Data.IRepositories;
 using EduNet.Backend.Service.Services.Roles;
 using EduNet.Backend.Service.Services.Users;
+using EduNet.Backend.Service.Services.Emails;
 using EduNet.Backend.Service.Interfaces.Users;
 using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.Services.Courses;
+using EduNet.Backend.Service.Interfaces.Emails;
 using EduNet.Backend.Service.Services.Accounts;
 using EduNet.Backend.Service.Services.Teachers;
 using EduNet.Backend.Service.Services.Payments;
@@ -33,6 +35,7 @@ public static class ServiceExtension
         // Services
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
