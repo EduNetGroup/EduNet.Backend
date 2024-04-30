@@ -6,6 +6,7 @@ using EduNet.Backend.Service.Services.Users;
 using EduNet.Backend.Service.Interfaces.Users;
 using EduNet.Backend.Service.Interfaces.Roles;
 using EduNet.Backend.Service.Services.Courses;
+using EduNet.Backend.Service.Services.Accounts;
 using EduNet.Backend.Service.Services.Teachers;
 using EduNet.Backend.Service.Services.Payments;
 using EduNet.Backend.Service.Services.Students;
@@ -15,6 +16,7 @@ using EduNet.Backend.Service.Interfaces.Branches;
 using EduNet.Backend.Service.Interfaces.Payments;
 using EduNet.Backend.Service.Interfaces.Students;
 using EduNet.Backend.Service.Interfaces.Teachers;
+using EduNet.Backend.Service.Interfaces.Accounts;
 
 namespace EduNet.Backend.Api.Extensions;
 
@@ -34,6 +36,7 @@ public static class ServiceExtension
         services.AddScoped<IBranchService, BranchService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
+        services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<ITeacherService, TeacherService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IPaymentService, PaymentService>();
