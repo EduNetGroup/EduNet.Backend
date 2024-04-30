@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using EduNet.Backend.Api.Models;
 using EduNet.Backend.Service.DTOs.Logins;
 using EduNet.Backend.Api.Controllers.Commons;
 using EduNet.Backend.Service.DTOs.Users.Users;
@@ -16,13 +17,28 @@ public class AccountsController : BaseController
 
     [HttpPost("Login")]
     public async Task<IActionResult> LoginAsync(LoginForCreationDto dto)
-        => Ok(await _accountService.LoginAsync(dto));
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await _accountService.LoginAsync(dto)
+        });
 
     [HttpPost("ChangePassword")]
     public async Task<IActionResult> ChangePasswordAsync(string email, string password)
-        => Ok(new { Result = await _accountService.ChangePassword(email, password) });
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await _accountService.ChangePassword(email, password)
+        });
 
     [HttpPost("Register")]
     public async Task<IActionResult> RegisterAsync([FromBody] UserForCreationDto userModel)
-        => Ok(await _accountService.CreateAsync(userModel));
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await _accountService.CreateAsync(userModel)
+        });
 }
