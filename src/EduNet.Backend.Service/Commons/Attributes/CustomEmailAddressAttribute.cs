@@ -5,7 +5,7 @@ namespace EduNet.Backend.Service.Commons.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 
-public class EmailAddressAttribute : ValidationAttribute
+public class CustomEmailAddressAttribute : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
