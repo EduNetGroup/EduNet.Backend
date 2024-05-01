@@ -1,6 +1,4 @@
 ﻿using EduNet.Backend.Domain.Entities.Branches;
-using EduNet.Backend.Domain.Entities.Students;
-using EduNet.Backend.Domain.Entities.Teachers;
 using EduNet.Backend.Service.DTOs.Courses.Lessons;
 using EduNet.Backend.Service.DTOs.Students.Attendances;
 using EduNet.Backend.Service.DTOs.Students.Enrollments;
