@@ -11,9 +11,6 @@ public class UserForCreationDto
     [MinLength(1), MaxLength(64)]
     public string LastName { get; set; }
 
-    [Required]
-    public long BranchId { get; set; }
-
     [PhoneNumberAttribute]
     public string PhoneNumber { get; set; }
 

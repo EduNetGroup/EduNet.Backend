@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using EduNet.Backend.Data.IRepositories;
-using EduNet.Backend.Domain.Entities.Branches;
+using EduNet.Backend.Service.Extensions;
+using EduNet.Backend.Service.Exceptions;
 using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.Configurations;
-using EduNet.Backend.Service.DTOs.Users.Users;
-using EduNet.Backend.Service.Exceptions;
-using EduNet.Backend.Service.Extensions;
+using EduNet.Backend.Domain.Entities.Branches;
 using EduNet.Backend.Service.Interfaces.Users;
-using Microsoft.EntityFrameworkCore;
+using EduNet.Backend.Service.DTOs.Users.Users;
 
 namespace EduNet.Backend.Service.Services.Users;
 
@@ -15,25 +15,16 @@ public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly IRepository<User> _userRepository;
-    private readonly IRepository<Branch> _branchRepository;
-
     public UserService(
         IMapper mapper,
-        IRepository<User> userRepository,
-        IRepository<Branch> branchRepository)
+        IRepository<User> userRepository)
     {
         _mapper = mapper;
         _userRepository = userRepository;
-        _branchRepository = branchRepository;
     }
 
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
-        var branchData = await _branchRepository
-            .SelectAsync(b => b.Id == dto.BranchId);
-        if (branchData is null)
-            throw new EduNetException(404, "Branch is not found");
-
         var userData = await _userRepository
             .SelectAsync(u => u.PhoneNumber == dto.PhoneNumber);
         if (userData is not null)
@@ -46,11 +37,6 @@ public class UserService : IUserService
 
     public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
     {
-        var branchData = await _branchRepository
-            .SelectAsync(b => b.Id == dto.BranchId);
-        if (branchData is null)
-            throw new EduNetException(404, "Branch is not found");
-
         var userData = await _userRepository
             .SelectAsync(u => u.Id == id);
         if (userData is null)

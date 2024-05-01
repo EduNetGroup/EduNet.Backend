@@ -1,4 +1,5 @@
-﻿using EduNet.Backend.Domain.Entities.Users;
+﻿using EduNet.Backend.Domain.Entities.Branches;
+using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.DTOs.Teachers.TeacherCourses;
 
 namespace EduNet.Backend.Service.DTOs.Teachers.Teachers;
@@ -14,6 +15,8 @@ public class TeacherForResultDto
     public DateTime DateOfBirth { get; set; }
     public long UserId { get; set; }
     public User User { get; set; }
+    public long BranchId { get; set; }
+    public Branch Branch { get; set; }
     public TeacherProfilePhotoForResultDto ProfilePhoto { get; set; }
     public ICollection<TeacherCourseForResultDto> Courses { get; set; }
 }

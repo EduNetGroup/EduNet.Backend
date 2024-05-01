@@ -23,4 +23,7 @@ public class TeacherForCreationDto
 
     [Required]
     public long UserId { get; set; }
+
+    [Required]
+    public long BranchId { get; set; }
 }
