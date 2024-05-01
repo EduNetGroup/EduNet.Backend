@@ -1,6 +1,5 @@
-﻿using EduNet.Backend.Service.Commons.Attributes;
-using System.ComponentModel.DataAnnotations;
-using EmailAddressAttribute = EduNet.Backend.Service.Commons.Attributes.EmailAddressAttribute;
+﻿using System.ComponentModel.DataAnnotations;
+using EduNet.Backend.Service.Commons.Attributes;
 
 namespace EduNet.Backend.Service.DTOs.Users.Users;
 
@@ -18,7 +17,7 @@ public class UserForCreationDto
     [PhoneNumberAttribute]
     public string PhoneNumber { get; set; }
 
-    [EmailAddressAttribute]
+    [CustomEmailAddressAttribute]
     public string Email { get; set; }
 
     [StrongPasswordAttribute]
