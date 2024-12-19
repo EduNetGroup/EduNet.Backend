@@ -50,7 +50,7 @@ public class PaymentsController : BaseController
     /// <param name="studentId"></param>
     /// <param name="params"></param>
     /// <returns></returns>
-    [HttpGet("{studentId")]
+    [HttpGet("student/{studentId}")]
     public async Task<IActionResult> GetAllByStudentIdAsync([FromRoute(Name = "studentId")] long studentId, [FromQuery] PaginationParams @params)
         => Ok(new Response
         {
