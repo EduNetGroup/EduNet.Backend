@@ -123,7 +123,7 @@ public class StudentsController : BaseController
     /// </summary>
     /// <param name="studentId"></param>
     /// <returns></returns>
-    [HttpDelete("{studentId}")]
+    [HttpDelete("student/{studentId}")]
     public async Task<IActionResult> DeleteProfilePhotoAsync([FromRoute(Name = "studentId")] long studentId)
         => Ok(new Response
         {
@@ -137,7 +137,7 @@ public class StudentsController : BaseController
     /// </summary>
     /// <param name="studentId"></param>
     /// <returns></returns>
-    [HttpGet("{studentId}")]
+    [HttpGet("student/{studentId}/photo")]
     public async Task<IActionResult> GetProfilePhotoAsync([FromRoute(Name = "studentId")] long studentId)
         => Ok(new Response
         {

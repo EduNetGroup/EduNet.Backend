@@ -1,37 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EduNet.Backend.Api.Models;
 using EduNet.Backend.Service.Configurations;
+using EduNet.Backend.Service.DTOs.Users.Users;
+using EduNet.Backend.Service.Interfaces.Users;
 using EduNet.Backend.Api.Controllers.Commons;
-using EduNet.Backend.Service.DTOs.Roles.Roles;
-using EduNet.Backend.Service.Interfaces.Roles;
 
-namespace EduNet.Backend.Api.Controllers.Roles;
+namespace EduNet.Backend.Api.Controllers.Users;
 
-public class RolesController : BaseController
+public class UsersController : BaseController
 {
-    private readonly IRoleService _roleService;
+    private readonly IUserService _userService;
 
-    public RolesController(IRoleService roleService)
+    public UsersController(IUserService userService)
     {
-        _roleService = roleService;
+        _userService = userService;
     }
 
     /// <summary>
-    /// To Add role 
+    /// To Create user
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> PostAsync([FromBody] RoleForCreationDto dto)
+    public async Task<IActionResult> PostAsync([FromBody] UserForCreationDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.AddAsync(dto)
+            Data = await _userService.AddAsync(dto)
         });
 
     /// <summary>
-    /// To Get all roles 
+    /// To Get all users
     /// </summary>
     /// <param name="params"></param>
     /// <returns></returns>
@@ -41,40 +41,40 @@ public class RolesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.RetrieveAllAsync(@params)
+            Data = await _userService.RetrieveAllAsync(@params)
         });
 
     /// <summary>
-    /// To Get role by id
+    /// To Get user by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync([FromRoute(Name = "id")] long id)
+    public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.RetrieveByIdAsync(id)
+            Data = await _userService.RetrieveByIdAsync(id)
         });
 
     /// <summary>
-    /// To Update role by id
+    /// To update user by id
     /// </summary>
     /// <param name="id"></param>
     /// <param name="dto"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] RoleForUpdateDto dto)
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] UserForUpdateDto dto)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.ModifyAsync(id, dto)
+            Data = await _userService.ModifyAsync(id, dto)
         });
 
     /// <summary>
-    /// To Delete role by id
+    /// To delete user by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -84,21 +84,21 @@ public class RolesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.RemoveAsync(id)
+            Data = await _userService.RemoveAsync(id)
         });
 
     /// <summary>
-    /// To Get roles by searching
+    /// To get all users by searching
     /// </summary>
     /// <param name="search"></param>
     /// <param name="params"></param>
     /// <returns></returns>
-    [HttpGet("search/{search}")]
-    public async Task<IActionResult> GetAllBySearchAsync([FromQuery(Name = "search")] string search, [FromQuery] PaginationParams @params)
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchAllAsync([FromQuery(Name = "search")] string search, [FromQuery] PaginationParams @params)
         => Ok(new Response
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await _roleService.SearchAllAsync(search, @params)
+            Data = await _userService.SearchAllAsync(search, @params)
         });
 }

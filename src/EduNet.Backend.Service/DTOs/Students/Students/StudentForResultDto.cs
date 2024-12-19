@@ -1,4 +1,5 @@
-﻿using EduNet.Backend.Domain.Entities.Users;
+﻿using EduNet.Backend.Domain.Entities.Branches;
+using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.DTOs.Payments;
 using EduNet.Backend.Service.DTOs.Students.Attendances;
 using EduNet.Backend.Service.DTOs.Students.Enrollments;
@@ -13,6 +14,8 @@ public class StudentForResultDto
     public string TelegramUserName { get; set; }
     public long UserId { get; set; }
     public User User { get; set; }
+    public long BranchId { get; set; }
+    public Branch Branch { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string IsGraduated { get; set; }

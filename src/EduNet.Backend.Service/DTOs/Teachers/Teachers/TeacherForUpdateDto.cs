@@ -9,4 +9,5 @@ public class TeacherForUpdateDto
     public string TelegramUserName { get; set; }
     public DateTime DateOfBirth { get; set; }
     public long UserId { get; set; }
+    public long BranchId { get; set; }
 }

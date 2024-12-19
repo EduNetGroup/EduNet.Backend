@@ -8,6 +8,7 @@ using EduNet.Backend.Service.Exceptions;
 using EduNet.Backend.Domain.Entities.Users;
 using EduNet.Backend.Service.Configurations;
 using EduNet.Backend.Domain.Entities.Teachers;
+using EduNet.Backend.Domain.Entities.Branches;
 using EduNet.Backend.Service.Interfaces.Teachers;
 using EduNet.Backend.Service.DTOs.Teachers.Teachers;
 
@@ -17,17 +18,20 @@ public class TeacherService : ITeacherService
 {
     private readonly IMapper _mapper;
     private readonly IRepository<User> _userRepository;
+    private readonly IRepository<Branch> _branchRepository;
     private readonly IRepository<Teacher> _teacherRepository;
     private readonly IRepository<TeacherProfilePhoto> _teacherProfilePhotoRepository;
 
     public TeacherService(
         IMapper mapper,
         IRepository<User> userRepository,
+        IRepository<Branch> branchRepository,
         IRepository<Teacher> teacherRepository,
         IRepository<TeacherProfilePhoto> teacherProfilePhotoRepository)
     {
         _mapper = mapper;
         _userRepository = userRepository;
+        _branchRepository = branchRepository;
         _teacherRepository = teacherRepository;
         _teacherProfilePhotoRepository = teacherProfilePhotoRepository;
     }
@@ -37,6 +41,14 @@ public class TeacherService : ITeacherService
             .SelectAsync(u => u.Id == dto.UserId);
         if (userData is null)
             throw new EduNetException(404, "User is not found");
+
+        var branchData = await _branchRepository
+            .SelectAsync(b => b.Id == dto.BranchId);
+        if (branchData is null)
+            throw new EduNetException(404, "Branch is not found");
+        
+        userData.BranchId = dto.BranchId;
+        await _userRepository.UpdateAsync(userData);
 
         var teacherData = await _teacherRepository
             .SelectAsync(t => t.FirstName.ToLower() == dto.FirstName.ToLower()
@@ -106,6 +118,14 @@ public class TeacherService : ITeacherService
         if (userData is null)
             throw new EduNetException(404, "User is not found");
 
+        var branchData = await _branchRepository
+            .SelectAsync(b => b.Id == dto.BranchId);
+        if (branchData is null)
+            throw new EduNetException(404, "Branch is not found");
+
+        userData.BranchId = dto.BranchId;
+        await _userRepository.UpdateAsync(userData);
+
         var teacherData = await _teacherRepository
             .SelectAsync(t => t.Id == id);
         if (teacherData is null)
@@ -114,7 +134,7 @@ public class TeacherService : ITeacherService
         var mappedData = _mapper.Map(dto, teacherData);
         mappedData.UpdatedAt = DateTime.UtcNow;
 
-        await _teacherRepository.InsertAsync(mappedData);
+        await _teacherRepository.UpdateAsync(mappedData);
 
         return _mapper.Map<TeacherForResultDto>(mappedData);
     }
