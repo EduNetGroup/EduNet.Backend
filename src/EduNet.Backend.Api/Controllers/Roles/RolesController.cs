@@ -93,7 +93,7 @@ public class RolesController : BaseController
     /// <param name="search"></param>
     /// <param name="params"></param>
     /// <returns></returns>
-    [HttpGet("{search}")]
+    [HttpGet("search/{search}")]
     public async Task<IActionResult> GetAllBySearchAsync([FromQuery(Name = "search")] string search, [FromQuery] PaginationParams @params)
         => Ok(new Response
         {
